@@ -9,11 +9,8 @@
  * defined by the Mozilla Public License, v. 2.0.
  */
 
-nextflow.enable.dsl = 2
-
 params.gatk_path = "/gatk/gatk"
-params.java_opts = ""
-
+params.java_opts = "-Xms4000m"
 
 process GATK_BASE_RECALIBRATOR {
     tag "${sampleId}_${subgroup_name}"

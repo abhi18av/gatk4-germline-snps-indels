@@ -9,10 +9,8 @@
  * defined by the Mozilla Public License, v. 2.0.
  */
 
-nextflow.enable.dsl = 2
-
 params.gatk_path = "/gatk/gatk"
-params.java_opts = ""
+params.java_opts = "-Xms4000m"
 params.compression_level = 5
 
 process GATK_MARK_DUPLICATES {
@@ -23,16 +21,15 @@ process GATK_MARK_DUPLICATES {
     cpus 16
 
     input:
-    val(sampleId)
-    path(input_mapped_merged_bam)
+      val(sampleId)
+      path(input_mapped_merged_bam)
 
     output:
-    val(sampleId)
-    path("*_merged.deduped.bam")
-    path("*_merged.deduped.metrics.txt")
+      val(sampleId)
+      path("*_merged.deduped.bam")
+      path("*_merged.deduped.metrics.txt")
 
     script:
-
     """
     ${params.gatk_path} --java-options "-Dsamjdk.compression_level=${params.compression_level} ${params.java_opts}" \
                         MarkDuplicates \

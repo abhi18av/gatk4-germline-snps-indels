@@ -8,11 +8,7 @@
  * This Source Code Form is "Incompatible With Secondary Licenses", as
  * defined by the Mozilla Public License, v. 2.0.
  */
-
-nextflow.enable.dsl = 2
-
 params.gitc_path = "/usr/gitc"
-
 
 process BWA_GET_BWA_VERSION {
     tag "BWA version"
@@ -25,7 +21,6 @@ process BWA_GET_BWA_VERSION {
     script:
 
     """
-
     ${params.gitc_path}/bwa 2>&1  \
     | grep -e '^Version'  \
     | sed 's/Version: //' \

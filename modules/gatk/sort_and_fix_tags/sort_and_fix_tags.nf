@@ -12,10 +12,9 @@
 nextflow.enable.dsl = 2
 
 params.gatk_path = "/gatk/gatk"
-params.java_opts_sort = ""
-params.java_opts_fix = ""
+params.java_opts_sort = "-Xms4000m"
+params.java_opts_fix = "-Xms500m"
 params.compression_level = 5
-
 
 process GATK_SORT_AND_FIX_TAGS {
     tag "${sampleId}"
@@ -25,22 +24,21 @@ process GATK_SORT_AND_FIX_TAGS {
     cpus 16
 
     input:
-    val(sampleId)
-    path(input_mapped_merged_marked_bam)
+      val(sampleId)
+      path(input_mapped_merged_marked_bam)
 
-    path(ref_dict)
-    path(ref_fasta)
-    path(ref_fasta_fai)
+      path(ref_dict)
+      path(ref_fasta)
+      path(ref_fasta_fai)
 
     output:
-    tuple val(sampleId),
+      tuple val(sampleId),
             path("${sampleId}.mapped.merged.duplicate_marked.sorted.bam"),
             path("${sampleId}.mapped.merged.duplicate_marked.sorted.bai"),
             path("${sampleId}.mapped.merged.duplicate_marked.sorted.bam.md5")
 
 
     script:
-
     """
     set -o pipefail
 

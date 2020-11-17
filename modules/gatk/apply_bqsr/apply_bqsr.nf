@@ -9,11 +9,8 @@
  * defined by the Mozilla Public License, v. 2.0.
  */
 
-nextflow.enable.dsl = 2
-
 params.gatk_path = "/gatk/gatk"
-params.java_opts = ""
-
+params.java_opts = "-Xms3000m"
 
 process GATK_APPLY_BQSR {
     tag "${sampleId}_${subgroup_unmapped_name}"

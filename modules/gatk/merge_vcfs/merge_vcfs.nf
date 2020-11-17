@@ -9,11 +9,8 @@
  * defined by the Mozilla Public License, v. 2.0.
  */
 
-nextflow.enable.dsl = 2
-
 params.gatk_path = "/gatk/gatk"
-params.java_opts = ""
-
+params.java_opts = "-Xmx4G"
 
 process GATK_MERGE_VCFS {
     tag "${sampleId}"
@@ -24,14 +21,12 @@ process GATK_MERGE_VCFS {
 
 
     input:
-
-    tuple val(sampleId),
+      tuple val(sampleId),
             path(input_vcfs_to_merge),
             path(inputs_vcf_indices)
 
-
     output:
-    tuple   val(sampleId),
+      tuple val(sampleId),
             path("${sampleId}.merged.vcf")
 
     script:
@@ -41,7 +36,6 @@ process GATK_MERGE_VCFS {
 
     """
     set -e
-
     ${params.gatk_path} --java-options "${params.java_opts}"  \
                         MergeVcfs \
                         --INPUT ${input_vcfs_params} \

@@ -9,10 +9,8 @@
  * defined by the Mozilla Public License, v. 2.0.
  */
 
-nextflow.enable.dsl = 2
-
 params.gatk_path = "/gatk/gatk"
-params.java_opts = ""
+params.java_opts = "-Xms6000m"
 params.compression_level = 5
 
 process GATK_MERGE_BAM_ALIGNMENT {
@@ -23,20 +21,19 @@ process GATK_MERGE_BAM_ALIGNMENT {
     cpus 16
 
     input:
+      val(sampleId)
+      path(input_mapped_bam)
+      path(input_unmapped_bam)
 
-    val(sampleId)
-    path(input_mapped_bam)
-    path(input_unmapped_bam)
+      path(ref_dict)
+      path(ref_fasta)
+      path(ref_fasta_fai)
 
-    path(ref_dict)
-    path(ref_fasta)
-    path(ref_fasta_fai)
-
-    val(bwa_version)
+      val(bwa_version)
 
     output:
-    val(sampleId)
-    path "*.mapped.merged.bam"
+      val(sampleId)
+      path "*.mapped.merged.bam"
 
     script:
     bwa_commandline = "bwa mem -K 100000000 -p -v 3 -t 8 -Y ${ref_fasta}"

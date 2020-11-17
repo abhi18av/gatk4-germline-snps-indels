@@ -9,11 +9,9 @@
  * defined by the Mozilla Public License, v. 2.0.
  */
 
-nextflow.enable.dsl = 2
-
 params.gatk_path = "/gatk/gatk"
-params.java_opts = ""
 params.contamination = 0
+params.java_opts = "-Xmx4G"
 
 process GATK_HAPLOTYPE_CALLER {
     tag "${sampleId}_${interval_chunk_name}"
@@ -22,10 +20,8 @@ process GATK_HAPLOTYPE_CALLER {
     memory "16 GB"
     cpus 16
 
-
     input:
-
-    tuple val(sampleId),
+      tuple val(sampleId),
             path(input_recal_merged_bam),
             path(input_recal_merged_bai),
             path(input_recal_merged_md5),
@@ -33,20 +29,18 @@ process GATK_HAPLOTYPE_CALLER {
             val(interval_chunk_name),
             path(interval_list_file)
 
-    path(ref_dict)
-    path(ref_fasta)
-    path(ref_fasta_fai)
+      path(ref_dict)
+      path(ref_fasta)
+      path(ref_fasta_fai)
 
 
     output:
-
-    tuple val(sampleId),
+      tuple val(sampleId),
             path("${sampleId}.${scatter_id.toString().padLeft(2, '0')}.${interval_chunk_name}.vcf"),
             path("${sampleId}.${scatter_id.toString().padLeft(2, '0')}.${interval_chunk_name}.vcf.idx")
 
 
     script:
-
     """
     set -e
 

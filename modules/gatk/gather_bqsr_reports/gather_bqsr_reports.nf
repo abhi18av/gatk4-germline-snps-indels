@@ -9,11 +9,8 @@
  * defined by the Mozilla Public License, v. 2.0.
  */
 
-nextflow.enable.dsl = 2
-
 params.gatk_path = "/gatk/gatk"
-params.java_opts = ""
-
+params.java_opts = "-Xms3000m"
 
 process GATK_GATHER_BQSR_REPORTS {
     tag "${sampleId}"
@@ -23,10 +20,10 @@ process GATK_GATHER_BQSR_REPORTS {
     cpus 16
 
     input:
-    tuple val(sampleId), path(input_bqsr_reports)
+      tuple val(sampleId), path(input_bqsr_reports)
 
     output:
-    tuple val(sampleId),
+      tuple val(sampleId),
             path("${sampleId}.recal_data.csv")
 
     script:

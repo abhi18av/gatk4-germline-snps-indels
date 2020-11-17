@@ -9,8 +9,6 @@
  * defined by the Mozilla Public License, v. 2.0.
  */
 
-nextflow.enable.dsl = 2
-
 params.gitc_path = "/usr/gitc"
 params.java_opts = "-Xms3000m"
 params.compression_level = 5
@@ -23,30 +21,29 @@ process PICARD_SAM_TO_FASTQ_BWA_MEM {
     cpus 16
 
     input:
-    tuple val(sampleId), path(input_unmapped_bam)
+      tuple val(sampleId), path(input_unmapped_bam)
 
-    path(ref_alt)
-    path(ref_amb)
-    path(ref_ann)
-    path(ref_bwt)
-    path(ref_pac)
-    path(ref_sa)
-    path(ref_dict)
-    path(ref_fasta)
-    path(ref_fasta_fai)
+      path(ref_alt)
+      path(ref_amb)
+      path(ref_ann)
+      path(ref_bwt)
+      path(ref_pac)
+      path(ref_sa)
+      path(ref_dict)
+      path(ref_fasta)
+      path(ref_fasta_fai)
 
     output:
-    val(sampleId)
-    path "*.mapped.bam"
-    path(input_unmapped_bam)
+      val(sampleId)
+      path "*.mapped.bam"
+      path(input_unmapped_bam)
 
     script:
-
     """
     set -o pipefail
     set -e
 
-	java -Dsamjdk.compression_level=${params.compression_level} ${params.java_opts} \
+  	java -Dsamjdk.compression_level=${params.compression_level} ${params.java_opts} \
 	    -jar ${params.gitc_path}/picard.jar \
         SamToFastq \
         INPUT=${input_unmapped_bam} \
